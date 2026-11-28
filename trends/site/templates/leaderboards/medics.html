@@ -6,6 +6,7 @@
 {% from "macros/icons.html" import classicon, playerlink %}
 {% from "macros/sort.html" import sort %}
 {% extends "leaderboards/base.html" %}
+{% set has_civilian = (medics | selectattr('hpm_civilian', 'defined') | rejectattr('hpm_civilian', 'none') | first) is defined %}
 {% block title %}Medics - {{ super() }}{% endblock %}
 {% block content %}
 	{{ super() }}
@@ -70,7 +71,9 @@
 	<th><abbr title="Medic healing per minute">{{ classicon('medic') }}H/M</abbr></th>
 	<th><abbr title="Sniper healing per minute">{{ classicon('sniper') }}H/M</abbr></th>
 	<th><abbr title="Spy healing per minute">{{ classicon('spy') }}H/M</abbr></th>
+	{% if has_civilian %}
 	<th><abbr title="Civilian healing per minute">{{ classicon('civilian') }}H/M</abbr></th>
+	{% endif %}
 	<th><abbr title="Enemy healing per minute">EH/M</abbr></th>
 	<th><abbr title="Other healing per minute">?H/M</abbr></th>
 	<th>Time Played</td>
@@ -109,7 +112,9 @@
 				<td>{{ optint(medic.hpm_medic) }}</td>
 				<td>{{ optint(medic.hpm_sniper) }}</td>
 				<td>{{ optint(medic.hpm_spy) }}</td>
-				<td>{{ optint(medic.hpm_civilian) }}</td>
+				{% if has_civilian %}
+					<td>{{ optint(medic.hpm_civilian) }}</td>
+				{% endif %}
 				<td>{{ optint(medic.hpm_enemy) }}</td>
 				<td>{{ optint(medic.hpm_other) }}</td>
 				<td>{{ medic['duration'] | duration }}</td>

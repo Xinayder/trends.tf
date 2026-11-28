@@ -150,6 +150,7 @@ def medics():
         'hpm_medic': "hpm_medic",
         'hpm_sniper': "hpm_sniper",
         'hpm_spy': "hpm_spy",
+        'hpm_civilian': "hpm_civilian",
         'hpm_enemy': "hpm_enemy",
         'hpm_other': "hpm_other",
         'duration': "duration",
@@ -184,6 +185,7 @@ def medics():
                            hpm_medic,
                            hpm_sniper,
                            hpm_spy,
+                           hpm_civilian,
                            hpm_enemy,
                            hpm_other,
                            duration
@@ -229,6 +231,8 @@ def medics():
                                    nullif(sum(healing_duration), 0) AS hpm_sniper,
                                sum(healing_spy) * 60.0 /
                                    nullif(sum(healing_duration), 0) AS hpm_spy,
+                               sum(healing_civilian) * 60.0 /
+                                   nullif(sum(healing_duration), 0) AS hpm_civilian,
                                sum(healing_enemy) * 60.0 /
                                    nullif(sum(healing_duration), 0) AS hpm_enemy,
                                sum(healing_other) * 60.0 /
