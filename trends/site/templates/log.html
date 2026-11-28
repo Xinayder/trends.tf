@@ -17,11 +17,16 @@
 	'sentries': False,
 	'cpc': False,
 	'ic': False,
+	'civilian': False
 } %}
 {% for player in players.values() %}
 	{% for col in has.keys() %}
 		{% if player[col] %}
 			{% do has.__setitem__(col, True) %}
+		{% endif %}
+
+		{% if player['class_stats'] | selectattr('class', 'equalto', 'civilian') | first %}
+			{% do has.__setitem__('civilian', True) %}
 		{% endif %}
 	{% endfor %}
 {% endfor %}
@@ -593,7 +598,9 @@
 			<th>Medic</th>
 			<th>Sniper</th>
 			<th>Spy</th>
-			<th>Civilian</th>
+			{% if has['civilian'] %}
+				<th>Civilian</th>
+			{% endif %}
 			<th>Total</th>
 		</tr></thead>
 		<tbody>
@@ -612,7 +619,9 @@
 				<td>{{ stats['medic'] }}</td>
 				<td>{{ stats['sniper'] }}</td>
 				<td>{{ stats['spy'] }}</td>
-				<td>{{ stats['civilian'] }}</td>
+				{% if has['civilian'] %}
+					<td>{{ stats['civilian'] }}</td>
+				{% endif %}
 				<td>{{ stats['total'] }}</td>
 			</tr>
 		{% endif %}
